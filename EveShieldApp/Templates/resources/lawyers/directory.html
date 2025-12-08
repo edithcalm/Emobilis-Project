@@ -1,0 +1,95 @@
+{% extends 'shared/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4"><i class="bi bi-briefcase"></i> Legal Aid Directory</h2>
+    
+    <!-- Search and Filter -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label for="county" class="form-label">Filter by County</label>
+                    <select name="county" id="county" class="form-select">
+                        <option value="">All Counties</option>
+                        {% for county in counties %}
+                            <option value="{{ county }}" {% if county_filter == county %}selected{% endif %}>{{ county }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="search" class="form-label">Search</label>
+                    <input type="text" name="search" id="search" class="form-control" 
+                           placeholder="Search by name or specialization..." value="{{ search_query }}">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Lawyers Grid -->
+    <div class="row">
+        {% for lawyer in page_obj %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ lawyer.name }}</h5>
+                    <p class="text-muted mb-2">
+                        <i class="bi bi-geo-alt"></i> {{ lawyer.county }}
+                    </p>
+                    <p class="card-text">
+                        <strong>Specialization:</strong> {{ lawyer.specialization }}
+                    </p>
+                    <div class="mb-2">
+                        <i class="bi bi-telephone"></i> 
+                        <a href="tel:{{ lawyer.phone }}">{{ lawyer.phone }}</a>
+                    </div>
+                    {% if lawyer.whatsapp %}
+                    <div class="mb-2">
+                        <i class="bi bi-whatsapp text-success"></i> 
+                        <a href="https://wa.me/{{ lawyer.whatsapp }}" target="_blank">{{ lawyer.whatsapp }}</a>
+                    </div>
+                    {% endif %}
+                    {% if lawyer.email %}
+                    <div class="mb-2">
+                        <i class="bi bi-envelope"></i> 
+                        <a href="mailto:{{ lawyer.email }}">{{ lawyer.email }}</a>
+                    </div>
+                    {% endif %}
+                    {% if lawyer.address %}
+                    <p class="text-muted small mb-0">
+                        <i class="bi bi-geo-alt-fill"></i> {{ lawyer.address }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No lawyers found matching your criteria.</div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1{% if county_filter %}&county={{ county_filter }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">First</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if county_filter %}&county={{ county_filter }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">Previous</a></li>
+            {% endif %}
+            <li class="page-item active"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if county_filter %}&county={{ county_filter }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if county_filter %}&county={{ county_filter }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">Last</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}
+
+

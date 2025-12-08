@@ -1,0 +1,73 @@
+{% extends 'shared/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h2 class="mb-4">Report #{{ report.id }}</h2>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p><strong>Type of Violence:</strong> {{ report.get_type_of_violence_display }}</p>
+                            <p><strong>Location:</strong> {{ report.location }}</p>
+                            <p><strong>Status:</strong> 
+                                <span class="badge bg-{% if report.status == 'pending' %}warning{% elif report.status == 'reviewed' %}info{% elif report.status == 'resolved' %}success{% else %}secondary{% endif %}">
+                                    {{ report.get_status_display }}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Incident Date:</strong> {{ report.incident_date|default:"Not specified" }}</p>
+                            <p><strong>Reported:</strong> {{ report.created_at|date:"F d, Y H:i" }}</p>
+                            <p><strong>Last Updated:</strong> {{ report.updated_at|date:"F d, Y H:i" }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5>Details</h5>
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                {{ report.details|linebreaks }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if report.file_upload %}
+                    <div class="mb-4">
+                        <h5>Uploaded File</h5>
+                        <a href="{{ report.file_upload.url }}" target="_blank" class="btn btn-outline-primary">
+                            <i class="bi bi-file-earmark"></i> View File
+                        </a>
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post" class="mt-4">
+                        {% csrf_token %}
+                        <h5 class="mb-3">Update Status</h5>
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select name="status" id="status" class="form-select">
+                                <option value="pending" {% if report.status == 'pending' %}selected{% endif %}>Pending</option>
+                                <option value="reviewed" {% if report.status == 'reviewed' %}selected{% endif %}>Reviewed</option>
+                                <option value="in_progress" {% if report.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                                <option value="resolved" {% if report.status == 'resolved' %}selected{% endif %}>Resolved</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="admin_notes" class="form-label">Admin Notes</label>
+                            <textarea name="admin_notes" id="admin_notes" class="form-control" rows="4">{{ report.admin_notes }}</textarea>
+                            <small class="form-text text-muted">Internal notes - not visible to the reporter</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Report</button>
+                        <a href="{% url 'eveshield:reports:admin_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

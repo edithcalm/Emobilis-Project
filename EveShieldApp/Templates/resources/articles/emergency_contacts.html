@@ -1,0 +1,103 @@
+{% extends 'shared/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4"><i class="bi bi-telephone-fill"></i> Emergency Contacts</h2>
+    <p class="lead mb-5">If you're in immediate danger or need urgent help, contact these services right away.</p>
+    
+    <!-- Emergency Contacts Grid -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card text-white bg-danger h-100">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-telephone-fill" style="font-size: 3rem;"></i>
+                    <h3 class="mt-3">{{ contacts.national_gbv_hotline.name }}</h3>
+                    <h2 class="mt-3">
+                        <a href="tel:{{ contacts.national_gbv_hotline.phone }}" class="text-white text-decoration-none">
+                            {{ contacts.national_gbv_hotline.phone }}
+                        </a>
+                    </h2>
+                    <p class="mt-3">{{ contacts.national_gbv_hotline.description }}</p>
+                    <a href="tel:{{ contacts.national_gbv_hotline.phone }}" class="btn btn-light btn-lg mt-3">
+                        <i class="bi bi-telephone-fill"></i> Call Now
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card text-white bg-danger h-100">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-shield-check" style="font-size: 3rem;"></i>
+                    <h3 class="mt-3">{{ contacts.police_emergency.name }}</h3>
+                    <h2 class="mt-3">
+                        <a href="tel:{{ contacts.police_emergency.phone }}" class="text-white text-decoration-none">
+                            {{ contacts.police_emergency.phone }}
+                        </a>
+                    </h2>
+                    <p class="mt-3">{{ contacts.police_emergency.description }}</p>
+                    <a href="tel:{{ contacts.police_emergency.phone }}" class="btn btn-light btn-lg mt-3">
+                        <i class="bi bi-telephone-fill"></i> Call Now
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card text-white bg-warning h-100">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-heart" style="font-size: 3rem;"></i>
+                    <h3 class="mt-3">{{ contacts.child_helpline.name }}</h3>
+                    <h2 class="mt-3">
+                        <a href="tel:{{ contacts.child_helpline.phone }}" class="text-white text-decoration-none">
+                            {{ contacts.child_helpline.phone }}
+                        </a>
+                    </h2>
+                    <p class="mt-3">{{ contacts.child_helpline.description }}</p>
+                    <a href="tel:{{ contacts.child_helpline.phone }}" class="btn btn-light btn-lg mt-3">
+                        <i class="bi bi-telephone-fill"></i> Call Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Additional Resources -->
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-briefcase"></i> Find a Lawyer
+                    </h5>
+                    <p class="card-text">Get immediate legal assistance from qualified lawyers in your area.</p>
+                    <a href="{% url 'eveshield:lawyers:directory' %}" class="btn btn-primary">Browse Lawyers</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-heart"></i> Find a Therapist
+                    </h5>
+                    <p class="card-text">Access mental health support from qualified therapists and counselors.</p>
+                    <a href="{% url 'eveshield:mental_health:directory' %}" class="btn btn-primary">Browse Therapists</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Important Notice -->
+    <div class="alert alert-danger mt-4">
+        <h5><i class="bi bi-exclamation-triangle-fill"></i> If You're in Immediate Danger</h5>
+        <p class="mb-0">
+            <strong>Call 999 immediately</strong> if you're in immediate danger. Your safety is the top priority. 
+            If you cannot call, try to get to a safe place and contact someone you trust.
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+

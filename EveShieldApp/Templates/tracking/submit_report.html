@@ -1,0 +1,79 @@
+{% extends 'shared/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h2 class="card-title mb-4">
+                        <i class="bi bi-shield-exclamation"></i> Report GBV Incident (Anonymous)
+                    </h2>
+                    <p class="text-muted mb-4">
+                        Your report is completely anonymous. We do not collect any personal information that could identify you.
+                        All reports are reviewed by trained administrators who will take appropriate action.
+                    </p>
+                    
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="type_of_violence" class="form-label">Type of Violence *</label>
+                            {{ form.type_of_violence }}
+                            {% if form.type_of_violence.errors %}
+                                <div class="text-danger small">{{ form.type_of_violence.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Location *</label>
+                            {{ form.location }}
+                            <small class="form-text text-muted">{{ form.location.help_text }}</small>
+                            {% if form.location.errors %}
+                                <div class="text-danger small">{{ form.location.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="details" class="form-label">Details *</label>
+                            {{ form.details }}
+                            <small class="form-text text-muted">{{ form.details.help_text }}</small>
+                            {% if form.details.errors %}
+                                <div class="text-danger small">{{ form.details.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="incident_date" class="form-label">Incident Date</label>
+                            {{ form.incident_date }}
+                            {% if form.incident_date.errors %}
+                                <div class="text-danger small">{{ form.incident_date.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="file_upload" class="form-label">Upload Evidence (Optional)</label>
+                            {{ form.file_upload }}
+                            <small class="form-text text-muted">{{ form.file_upload.help_text }}</small>
+                            {% if form.file_upload.errors %}
+                                <div class="text-danger small">{{ form.file_upload.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i> 
+                            <strong>Your Privacy:</strong> This report is anonymous. No personal information is required or collected.
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="bi bi-send"></i> Submit Report
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
