@@ -1,125 +1,172 @@
 {% extends 'shared/base.html' %}
 
 {% block content %}
-<div class="container-fluid">
-    <h2 class="mb-4"><i class="bi bi-speedometer2"></i> GBV Reports Admin Dashboard</h2>
-    
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Admin Dashboard</h2>
+            <p class="text-muted">Overview of reported incidents and case management.</p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-light text-dark border p-2"><i class="bi bi-calendar-event me-2"></i> {{ today|date:"F
+                d, Y" }}</span> <!-- Requires date context or just static layout -->
+        </div>
+    </div>
+
     <!-- Statistics Cards -->
-    <div class="row mb-4">
+    <div class="row g-4 mb-5">
         <div class="col-md-4">
-            <div class="card text-white bg-primary">
-                <div class="card-body">
-                    <h5 class="card-title">Total Reports</h5>
-                    <h2>{{ total_reports }}</h2>
+            <div class="card border-0 shadow-sm overflow-hidden h-100">
+                <div class="card-body p-4 position-relative">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted small fw-bold text-uppercase mb-1">Total Reports</p>
+                            <h2 class="display-5 fw-bold mb-0 text-primary-custom">{{ total_reports }}</h2>
+                        </div>
+                        <div class="bg-primary-soft p-3 rounded-3">
+                            <i class="bi bi-folder-fill fs-3 text-primary-custom"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card text-white bg-warning">
-                <div class="card-body">
-                    <h5 class="card-title">Pending Review</h5>
-                    <h2>{{ pending_reports }}</h2>
+            <div class="card border-0 shadow-sm overflow-hidden h-100">
+                <div class="card-body p-4 position-relative">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted small fw-bold text-uppercase mb-1">Pending Review</p>
+                            <h2 class="display-5 fw-bold mb-0 text-warning">{{ pending_reports }}</h2>
+                        </div>
+                        <div class="bg-warning bg-opacity-10 p-3 rounded-3">
+                            <i class="bi bi-clock-history fs-3 text-warning"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card text-white bg-success">
-                <div class="card-body">
-                    <h5 class="card-title">Reviewed</h5>
-                    <h2>{{ reviewed_reports }}</h2>
+            <div class="card border-0 shadow-sm overflow-hidden h-100">
+                <div class="card-body p-4 position-relative">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted small fw-bold text-uppercase mb-1">Reviewed</p>
+                            <h2 class="display-5 fw-bold mb-0 text-success">{{ reviewed_reports }}</h2>
+                        </div>
+                        <div class="bg-success bg-opacity-10 p-3 rounded-3">
+                            <i class="bi bi-check-circle-fill fs-3 text-success"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <!-- Filters -->
-    <div class="card mb-4">
-        <div class="card-body">
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
             <form method="get" class="row g-3">
                 <div class="col-md-4">
-                    <label for="status" class="form-label">Filter by Status</label>
-                    <select name="status" id="status" class="form-select">
-                        <option value="">All Statuses</option>
+                    <label for="status" class="form-label text-muted small fw-bold">STATUS</label>
+                    <select name="status" id="status" class="form-select bg-light border-0">
                         <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
-                        <option value="reviewed" {% if status_filter == 'reviewed' %}selected{% endif %}>Reviewed</option>
-                        <option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>In Progress</option>
-                        <option value="resolved" {% if status_filter == 'resolved' %}selected{% endif %}>Resolved</option>
+<option value="reviewed" {% if status_filter == 'reviewed' %}selected{% endif %}>Reviewed</option>
+<option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>In Progress</option>
+<option value="resolved" {% if status_filter == 'resolved' %}selected{% endif %}>Resolved</option>
+
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <label for="search" class="form-label">Search</label>
-                    <input type="text" name="search" id="search" class="form-control" 
-                           placeholder="Search by location or details..." value="{{ search_query }}">
+                    <label for="search" class="form-label text-muted small fw-bold">SEARCH</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
+                        <input type="text" name="search" id="search" class="form-control bg-light border-0"
+                            placeholder="Search by location or detail keywords..." value="{{ search_query }}">
+                    </div>
                 </div>
                 <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100">Filter</button>
+                    <button type="submit" class="btn btn-primary w-100 fw-medium">Filter Results</button>
                 </div>
             </form>
         </div>
     </div>
-    
+
     <!-- Reports Table -->
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title mb-3">Reports</h5>
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Type</th>
-                            <th>Location</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for report in page_obj %}
-                        <tr>
-                            <td>#{{ report.id }}</td>
-                            <td>{{ report.get_type_of_violence_display }}</td>
-                            <td>{{ report.location }}</td>
-                            <td>{{ report.created_at|date:"M d, Y" }}</td>
-                            <td>
-                                <span class="badge bg-{% if report.status == 'pending' %}warning{% elif report.status == 'reviewed' %}info{% elif report.status == 'resolved' %}success{% else %}secondary{% endif %}">
-                                    {{ report.get_status_display }}
-                                </span>
-                            </td>
-                            <td>
-                                <a href="{% url 'eveshield:reports:report_detail' report.id %}" class="btn btn-sm btn-primary">
-                                    <i class="bi bi-eye"></i> View
-                                </a>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="6" class="text-center text-muted">No reports found</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            
-            <!-- Pagination -->
-            {% if page_obj.has_other_pages %}
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white border-bottom p-4">
+            <h5 class="fw-bold mb-0">Recent Reports</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light text-muted small text-uppercase">
+                    <tr>
+                        <th class="px-4 py-3 border-0">Report ID</th>
+                        <th class="px-4 py-3 border-0">Type of Violence</th>
+                        <th class="px-4 py-3 border-0">Location</th>
+                        <th class="px-4 py-3 border-0">Submission Date</th>
+                        <th class="px-4 py-3 border-0">Status</th>
+                        <th class="px-4 py-3 border-0 text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in page_obj %}
+                    <tr>
+                        <td class="px-4 py-3 fw-medium">#{{ report.id }}</td>
+                        <td class="px-4 py-3">{{ report.get_type_of_violence_display }}</td>
+                        <td class="px-4 py-3 text-muted"><i class="bi bi-geo-alt me-1"></i> {{ report.location }}</td>
+                        <td class="px-4 py-3 text-muted">{{ report.created_at|date:"M d, Y" }}</td>
+                        <td class="px-4 py-3">
+                            <span
+                                class="badge rounded-pill bg-{% if report.status == 'pending' %}warning{% elif report.status == 'reviewed' %}info{% elif report.status == 'resolved' %}success{% else %}secondary{% endif %} fw-normal px-3 py-2">
+                                {{ report.get_status_display }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 text-end">
+                            <a href="{% url 'eveshield:reports:report_detail' report.id %}"
+                                class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                View Details
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5">
+                            <div class="text-muted mb-2"><i class="bi bi-inbox fs-1"></i></div>
+                            <p class="text-muted">No reports found matching your criteria</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <div class="card-footer bg-white border-top p-4">
             <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
+                <ul class="pagination justify-content-center mb-0">
                     {% if page_obj.has_previous %}
-                        <li class="page-item"><a class="page-link" href="?page=1{% if status_filter %}&status={{ status_filter }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">First</a></li>
-                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">Previous</a></li>
+                    <li class="page-item">
+                        <a class="page-link border-0 rounded-circle mx-1 d-flex align-items-center justify-content-center"
+                            style="width: 32px; height: 32px;"
+                            href="?page={{ page_obj.previous_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}"><i
+                                class="bi bi-chevron-left"></i></a>
+                    </li>
                     {% endif %}
-                    <li class="page-item active"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+                    <li class="page-item disabled"><span class="page-link border-0 bg-transparent text-muted small">Page
+                            {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
                     {% if page_obj.has_next %}
-                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">Next</a></li>
-                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">Last</a></li>
+                    <li class="page-item">
+                        <a class="page-link border-0 rounded-circle mx-1 d-flex align-items-center justify-content-center"
+                            style="width: 32px; height: 32px;"
+                            href="?page={{ page_obj.next_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}"><i
+                                class="bi bi-chevron-right"></i></a>
+                    </li>
                     {% endif %}
                 </ul>
             </nav>
-            {% endif %}
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
-
-

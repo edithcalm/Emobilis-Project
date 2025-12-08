@@ -1,79 +1,96 @@
 {% extends 'shared/base.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8">
-            <div class="card shadow">
-                <div class="card-body p-5">
-                    <h2 class="card-title mb-4">
-                        <i class="bi bi-shield-exclamation"></i> Report GBV Incident (Anonymous)
-                    </h2>
-                    <p class="text-muted mb-4">
-                        Your report is completely anonymous. We do not collect any personal information that could identify you.
-                        All reports are reviewed by trained administrators who will take appropriate action.
-                    </p>
-                    
+            <div class="text-center mb-5">
+                <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-2 mb-3">100%
+                    Anonymous</span>
+                <h2 class="fw-bold">Report an Incident</h2>
+                <p class="text-muted">Your safety and privacy are our top priorities. This report is encrypted.</p>
+            </div>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        
-                        <div class="mb-3">
-                            <label for="type_of_violence" class="form-label">Type of Violence *</label>
+                        {% if form.errors %}
+                        <div class="alert alert-danger mb-4">
+                            <i class="bi bi-exclamation-circle me-2"></i> Please correct the errors below.
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-4">
+                            <label for="type_of_violence" class="form-label fw-bold">Type of Violence <span
+                                    class="text-danger">*</span></label>
                             {{ form.type_of_violence }}
                             {% if form.type_of_violence.errors %}
-                                <div class="text-danger small">{{ form.type_of_violence.errors }}</div>
+                            <div class="text-danger small mt-1">{{ form.type_of_violence.errors }}</div>
                             {% endif %}
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="location" class="form-label">Location *</label>
-                            {{ form.location }}
-                            <small class="form-text text-muted">{{ form.location.help_text }}</small>
-                            {% if form.location.errors %}
-                                <div class="text-danger small">{{ form.location.errors }}</div>
-                            {% endif %}
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="location" class="form-label fw-bold">Location <span
+                                        class="text-danger">*</span></label>
+                                {{ form.location }}
+                                <div class="form-text small">{{ form.location.help_text }}</div>
+                                {% if form.location.errors %}
+                                <div class="text-danger small mt-1">{{ form.location.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="incident_date" class="form-label fw-bold">Date of Incident</label>
+                                {{ form.incident_date }}
+                                {% if form.incident_date.errors %}
+                                <div class="text-danger small mt-1">{{ form.incident_date.errors }}</div>
+                                {% endif %}
+                            </div>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="details" class="form-label">Details *</label>
+
+                        <div class="mb-4">
+                            <label for="details" class="form-label fw-bold">Incident Details <span
+                                    class="text-danger">*</span></label>
                             {{ form.details }}
-                            <small class="form-text text-muted">{{ form.details.help_text }}</small>
+                            <div class="form-text small">{{ form.details.help_text }}</div>
                             {% if form.details.errors %}
-                                <div class="text-danger small">{{ form.details.errors }}</div>
+                            <div class="text-danger small mt-1">{{ form.details.errors }}</div>
                             {% endif %}
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="incident_date" class="form-label">Incident Date</label>
-                            {{ form.incident_date }}
-                            {% if form.incident_date.errors %}
-                                <div class="text-danger small">{{ form.incident_date.errors }}</div>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="file_upload" class="form-label">Upload Evidence (Optional)</label>
-                            {{ form.file_upload }}
-                            <small class="form-text text-muted">{{ form.file_upload.help_text }}</small>
+
+                        <div class="mb-4">
+                            <label for="file_upload" class="form-label fw-bold">Upload Evidence <span
+                                    class="text-muted fw-normal">(Optional)</span></label>
+                            <div class="input-group">
+                                {{ form.file_upload }}
+                            </div>
+                            <div class="form-text small">{{ form.file_upload.help_text }}</div>
                             {% if form.file_upload.errors %}
-                                <div class="text-danger small">{{ form.file_upload.errors }}</div>
+                            <div class="text-danger small mt-1">{{ form.file_upload.errors }}</div>
                             {% endif %}
                         </div>
-                        
-                        <div class="alert alert-info">
-                            <i class="bi bi-info-circle"></i> 
-                            <strong>Your Privacy:</strong> This report is anonymous. No personal information is required or collected.
+
+                        <div class="alert alert-light border d-flex align-items-center mb-4" role="alert">
+                            <i class="bi bi-shield-lock-fill text-primary me-3 fs-4"></i>
+                            <div class="small text-muted">
+                                <strong>Privacy Guarantee:</strong> We do not track your IP address or collect personal
+                                identifiers unless you choose to provide them.
+                            </div>
                         </div>
-                        
-                        <button type="submit" class="btn btn-primary btn-lg w-100">
-                            <i class="bi bi-send"></i> Submit Report
+
+                        <button type="submit" class="btn btn-primary w-100 py-3 fw-bold fs-5 shadow-sm">
+                            <i class="bi bi-send-fill me-2"></i> Submit Secure Report
                         </button>
                     </form>
                 </div>
+            </div>
+
+            <div class="text-center mt-4 text-muted small">
+                In case of immediate danger, please call <a href="tel:999" class="text-danger fw-bold">999</a> or <a
+                    href="tel:1195" class="text-danger fw-bold">1195</a>.
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
-
-

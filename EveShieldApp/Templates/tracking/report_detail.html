@@ -1,73 +1,101 @@
 {% extends 'shared/base.html' %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 mx-auto">
-            <div class="card shadow">
-                <div class="card-body p-5">
-                    <h2 class="mb-4">Report #{{ report.id }}</h2>
-                    
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <p><strong>Type of Violence:</strong> {{ report.get_type_of_violence_display }}</p>
-                            <p><strong>Location:</strong> {{ report.location }}</p>
-                            <p><strong>Status:</strong> 
-                                <span class="badge bg-{% if report.status == 'pending' %}warning{% elif report.status == 'reviewed' %}info{% elif report.status == 'resolved' %}success{% else %}secondary{% endif %}">
-                                    {{ report.get_status_display }}
-                                </span>
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong>Incident Date:</strong> {{ report.incident_date|default:"Not specified" }}</p>
-                            <p><strong>Reported:</strong> {{ report.created_at|date:"F d, Y H:i" }}</p>
-                            <p><strong>Last Updated:</strong> {{ report.updated_at|date:"F d, Y H:i" }}</p>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <h5>Details</h5>
-                        <div class="card bg-light">
-                            <div class="card-body">
-                                {{ report.details|linebreaks }}
+<div class="container py-5">
+    <div class="row items-center justify-content-center">
+        <div class="col-lg-10">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="{% url 'eveshield:reports:admin_dashboard' %}"
+                        class="btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 40px; height: 40px;"><i class="bi bi-arrow-left"></i></a>
+                    <h2 class="fw-bold mb-0">Report #{{ report.id }}</h2>
+                </div>
+                <span class="badge border bg-light text-dark px-3 py-2 rounded-pill">
+                    Submitted: {{ report.created_at|date:"M d, Y H:i" }}
+                </span>
+            </div>
+
+            <div class="row g-4">
+                <!-- Main Report Details -->
+                <div class="col-md-8">
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-white border-bottom p-4">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h5 class="fw-bold mb-1">Incident Report</h5>
+                                    <p class="text-muted small mb-0"><i class="bi bi-geo-alt me-1"></i> {{
+                                        report.location }}</p>
+                                </div>
+                                <span class="badge bg-primary-soft text-primary-custom rounded-pill">{{
+                                    report.get_type_of_violence_display }}</span>
                             </div>
                         </div>
-                    </div>
-                    
-                    {% if report.file_upload %}
-                    <div class="mb-4">
-                        <h5>Uploaded File</h5>
-                        <a href="{{ report.file_upload.url }}" target="_blank" class="btn btn-outline-primary">
-                            <i class="bi bi-file-earmark"></i> View File
-                        </a>
-                    </div>
-                    {% endif %}
-                    
-                    <form method="post" class="mt-4">
-                        {% csrf_token %}
-                        <h5 class="mb-3">Update Status</h5>
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <select name="status" id="status" class="form-select">
-                                <option value="pending" {% if report.status == 'pending' %}selected{% endif %}>Pending</option>
-                                <option value="reviewed" {% if report.status == 'reviewed' %}selected{% endif %}>Reviewed</option>
-                                <option value="in_progress" {% if report.status == 'in_progress' %}selected{% endif %}>In Progress</option>
-                                <option value="resolved" {% if report.status == 'resolved' %}selected{% endif %}>Resolved</option>
-                            </select>
+                        <div class="card-body p-4">
+                            <div class="mb-4">
+                                <h6 class="text-uppercase text-muted small fw-bold mb-2">Description</h6>
+                                <div class="bg-light p-3 rounded-3 border-0">
+                                    {{ report.details|linebreaks }}
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <h6 class="text-uppercase text-muted small fw-bold mb-1">Incident Date</h6>
+                                    <p class="fw-medium">{{ report.incident_date|default:"Not specified" }}</p>
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="text-uppercase text-muted small fw-bold mb-1">Last Updated</h6>
+                                    <p class="fw-medium">{{ report.updated_at|date:"M d, Y H:i" }}</p>
+                                </div>
+                            </div>
+
+                            {% if report.file_upload %}
+                            <div class="mt-4 pt-3 border-top">
+                                <h6 class="text-uppercase text-muted small fw-bold mb-2">Evidence</h6>
+                                <a href="{{ report.file_upload.url }}" target="_blank"
+                                    class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-paperclip me-2"></i>View Attachment
+                                </a>
+                            </div>
+                            {% endif %}
                         </div>
-                        <div class="mb-3">
-                            <label for="admin_notes" class="form-label">Admin Notes</label>
-                            <textarea name="admin_notes" id="admin_notes" class="form-control" rows="4">{{ report.admin_notes }}</textarea>
-                            <small class="form-text text-muted">Internal notes - not visible to the reporter</small>
+                    </div>
+                </div>
+
+                <!-- Admin Actions Sidebar -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm border-0 sticky-top" style="top: 100px;">
+                        <div class="card-header bg-light border-bottom p-3">
+                            <h6 class="fw-bold mb-0">Case Management</h6>
                         </div>
-                        <button type="submit" class="btn btn-primary">Update Report</button>
-                        <a href="{% url 'eveshield:reports:admin_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
-                    </form>
+                        <div class="card-body p-4">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="status" class="form-label text-muted small fw-bold">REPORT
+                                        STATUS</label>
+                                    <select name="status" id="status" class="form-select">
+                                      <option value="pending" {% if report.status == 'pending' %}selected{% endif %}>Pending</option>
+<option value="reviewed" {% if report.status == 'reviewed' %}selected{% endif %}>Reviewed</option>
+<option value="in_progress" {% if report.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+<option value="resolved" {% if report.status == 'resolved' %}selected{% endif %}>Resolved</option>
+
+                                    </select>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="admin_notes" class="form-label text-muted small fw-bold">INTERNAL
+                                        NOTES</label>
+                                    <textarea name="admin_notes" id="admin_notes" class="form-control" rows="5"
+                                        placeholder="Add notes here...">{{ report.admin_notes }}</textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 fw-medium">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
-
-

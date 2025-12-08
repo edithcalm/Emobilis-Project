@@ -1,77 +1,92 @@
 {% extends 'shared/base.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-            <div class="card shadow">
-                <div class="card-body p-5">
-                    <h2 class="card-title text-center mb-4">
-                        <i class="bi bi-person-plus"></i> Create Account
-                    </h2>
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">Create Account</h2>
+                <p class="text-muted">Join EveShield to access support and resources</p>
+            </div>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
                     <form method="post">
                         {% csrf_token %}
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="username" class="form-label">Username *</label>
+                        {% if form.errors %}
+                        <div class="alert alert-danger small">
+                            <ul class="mb-0 ps-3">
+                                {% for field in form %}
+                                {% for error in field.errors %}
+                                <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                                {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <h6 class="text-uppercase text-muted small fw-bold mb-3">Account Details</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-12">
+                                <label for="username" class="form-label">Username <span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="username" name="username" required>
-                                {% if form.username.errors %}
-                                    <div class="text-danger small">{{ form.username.errors }}</div>
-                                {% endif %}
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">Email *</label>
+                            <div class="col-12">
+                                <label for="email" class="form-label">Email Address <span
+                                        class="text-danger">*</span></label>
                                 <input type="email" class="form-control" id="email" name="email" required>
-                                {% if form.email.errors %}
-                                    <div class="text-danger small">{{ form.email.errors }}</div>
-                                {% endif %}
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+
+                        <h6 class="text-uppercase text-muted small fw-bold mb-3">Personal Information <span
+                                class="fw-normal text-muted">(Optional)</span></h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
                                 <label for="first_name" class="form-label">First Name</label>
                                 <input type="text" class="form-control" id="first_name" name="first_name">
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6">
                                 <label for="last_name" class="form-label">Last Name</label>
                                 <input type="text" class="form-control" id="last_name" name="last_name">
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="password1" class="form-label">Password *</label>
-                                <input type="password" class="form-control" id="password1" name="password1" required>
-                                {% if form.password1.errors %}
-                                    <div class="text-danger small">{{ form.password1.errors }}</div>
-                                {% endif %}
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" name="phone">
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="password2" class="form-label">Confirm Password *</label>
-                                <input type="password" class="form-control" id="password2" name="password2" required>
-                                {% if form.password2.errors %}
-                                    <div class="text-danger small">{{ form.password2.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="phone" class="form-label">Phone</label>
-                                <input type="text" class="form-control" id="phone" name="phone">
-                            </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6">
                                 <label for="county" class="form-label">County</label>
                                 <input type="text" class="form-control" id="county" name="county">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 mb-3">Sign Up</button>
+
+                        <h6 class="text-uppercase text-muted small fw-bold mb-3">Security</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="password1" class="form-label">Password <span
+                                        class="text-danger">*</span></label>
+                                <input type="password" class="form-control" id="password1" name="password1" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="password2" class="form-label">Confirm Password <span
+                                        class="text-danger">*</span></label>
+                                <input type="password" class="form-control" id="password2" name="password2" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-2 fw-medium">Create Account</button>
                     </form>
-                    <div class="text-center">
-                        <p class="mb-0">Already have an account? <a href="{% url 'eveshield:accounts:login' %}">Login here</a></p>
-                    </div>
                 </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <p class="text-muted">Already have an account? <a href="{% url 'eveshield:accounts:login' %}"
+                        class="fw-medium text-primary text-decoration-none">Sign in</a></p>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
-

@@ -2,17 +2,22 @@
 
 {% block content %}
 <!-- Hero Section -->
-<div class="hero-section">
-    <div class="container">
-        <h1 class="display-4 fw-bold mb-4">Welcome to EveShield</h1>
-        <p class="lead mb-4">A safe digital space for GBV support, legal aid, and mental health resources</p>
-        <div class="d-flex gap-3 justify-content-center flex-wrap">
-            <a href="{% url 'eveshield:reports:submit_report' %}" class="btn btn-light btn-lg">
-                <i class="bi bi-shield-exclamation"></i> Report GBV Anonymously
-            </a>
-            <a href="{% url 'eveshield:resources:emergency_contacts' %}" class="btn btn-outline-light btn-lg">
-                <i class="bi bi-telephone-fill"></i> Emergency Contacts
-            </a>
+<div class="px-4 py-5 mb-5 text-center bg-white border-bottom shadow-sm">
+    <div class="container py-5">
+        <h1 class="display-4 fw-bold text-dark mb-3">Welcome to EveShield</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead text-muted mb-5">
+                A secure sanctuary for support, legal guidance, and mental wellness.
+                Your safety is our priority, your voice is our command.
+            </p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="{% url 'eveshield:reports:submit_report' %}" class="btn btn-primary btn-lg px-4 gap-3">
+                    <i class="bi bi-shield-exclamation"></i> Report GBV Anonymously
+                </a>
+                <a href="{% url 'eveshield:resources:emergency_contacts' %}" class="btn btn-outline-danger btn-lg px-4">
+                    <i class="bi bi-telephone-fill"></i> Emergency Contacts
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -20,108 +25,133 @@
 <!-- Features Section -->
 <div class="container my-5">
     <div class="row text-center mb-5">
-        <div class="col-12">
-            <h2 class="mb-4">How We Can Help</h2>
-            <p class="text-muted">EveShield provides comprehensive support for survivors of gender-based violence</p>
+        <div class="col-lg-8 mx-auto">
+            <span class="badge badge-soft-primary px-3 py-2 rounded-pill mb-3">Our Services</span>
+            <h2 class="fw-bold mb-3 text-dark">Comprehensive Care System</h2>
+            <p class="text-muted lead">We provide an integrated ecosystem of support services designed to help you
+                navigate through difficult times.</p>
         </div>
     </div>
-    
+
     <div class="row g-4">
         <div class="col-md-4">
-            <div class="card h-100 text-center">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <i class="bi bi-shield-check text-primary" style="font-size: 3rem;"></i>
+            <div class="card h-100 border-0 shadow-sm transition-hover">
+                <div class="card-body p-4 text-center">
+                    <div
+                        class="d-inline-flex align-items-center justify-content-center bg-primary-soft rounded-circle mb-3 p-3">
+                        <i class="bi bi-shield-lock text-primary-custom fs-2"></i>
                     </div>
-                    <h5 class="card-title">Anonymous Reporting</h5>
-                    <p class="card-text">Submit GBV reports anonymously. Your identity remains protected while your voice is heard.</p>
-            <a href="{% url 'eveshield:reports:submit_report' %}" class="btn btn-primary">Report Now</a>
+                    <h5 class="card-title fw-bold">Anonymous Reporting</h5>
+                    <p class="card-text text-muted mb-4">Submit reports securely without revealing your identity. We
+                        ensure your data is encrypted and safe.</p>
+                    <a href="{% url 'eveshield:reports:submit_report' %}"
+                        class="btn btn-link text-decoration-none p-0 stretched-link">Learn more <i
+                            class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4">
-            <div class="card h-100 text-center">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <i class="bi bi-briefcase text-primary" style="font-size: 3rem;"></i>
+            <div class="card h-100 border-0 shadow-sm transition-hover">
+                <div class="card-body p-4 text-center">
+                    <div
+                        class="d-inline-flex align-items-center justify-content-center bg-primary-soft rounded-circle mb-3 p-3">
+                        <i class="bi bi-briefcase text-primary-custom fs-2"></i>
                     </div>
-                    <h5 class="card-title">Legal Aid Directory</h5>
-                    <p class="card-text">Find qualified lawyers and legal aid services in your area. Get the legal support you need.</p>
-                    <a href="{% url 'eveshield:lawyers:directory' %}" class="btn btn-primary">Find a Lawyer</a>
+                    <h5 class="card-title fw-bold">Legal Aid Directory</h5>
+                    <p class="card-text text-muted mb-4">Connect with verified lawyers and legal aid organizations
+                        committed to fighting for your rights.</p>
+                    <a href="{% url 'eveshield:lawyers:directory' %}"
+                        class="btn btn-link text-decoration-none p-0 stretched-link">Find a Lawyer <i
+                            class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4">
-            <div class="card h-100 text-center">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <i class="bi bi-heart text-primary" style="font-size: 3rem;"></i>
+            <div class="card h-100 border-0 shadow-sm transition-hover">
+                <div class="card-body p-4 text-center">
+                    <div
+                        class="d-inline-flex align-items-center justify-content-center bg-primary-soft rounded-circle mb-3 p-3">
+                        <i class="bi bi-heart-pulse text-primary-custom fs-2"></i>
                     </div>
-                    <h5 class="card-title">Mental Health Support</h5>
-                    <p class="card-text">Access therapists, counselors, and mental health resources. You don't have to face this alone.</p>
-                    <a href="{% url 'eveshield:mental_health:directory' %}" class="btn btn-primary">Find Support</a>
+                    <h5 class="card-title fw-bold">Mental Health</h5>
+                    <p class="card-text text-muted mb-4">Access our network of compassionate therapists and counselors
+                        ready to listen and help.</p>
+                    <a href="{% url 'eveshield:mental_health:directory' %}"
+                        class="btn btn-link text-decoration-none p-0 stretched-link">Find Support <i
+                            class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4">
-            <div class="card h-100 text-center">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <i class="bi bi-chat-dots text-primary" style="font-size: 3rem;"></i>
+            <div class="card h-100 border-0 shadow-sm transition-hover">
+                <div class="card-body p-4 text-center">
+                    <div
+                        class="d-inline-flex align-items-center justify-content-center bg-primary-soft rounded-circle mb-3 p-3">
+                        <i class="bi bi-chat-dots text-primary-custom fs-2"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Smart Chatbots</h5>
+                    <p class="card-text text-muted mb-4">Get instant guidance on legal procedures or simple mental
+                        health coping mechanisms 24/7.</p>
+                    <div class="d-flex justify-content-center gap-2 position-relative" style="z-index: 2;">
+                        <a href="{% url 'eveshield:chatbot:legal_chatbot' %}"
+                            class="btn btn-outline-primary btn-sm">Legal Chat</a>
+                        <a href="{% url 'eveshield:mental_health:chatbot' %}"
+                            class="btn btn-outline-primary btn-sm">Wellness Chat</a>
                     </div>
                     <h5 class="card-title">Legal Chatbot</h5>
-                    <p class="card-text">Get instant answers to common legal questions about GBV, P3 forms, and your rights.</p>
+                    <p class="card-text">Get instant answers to common legal questions about GBV, P3 forms, and your
+                        rights.</p>
                     <a href="{% url 'eveshield:chatbot:legal_chatbot' %}" class="btn btn-primary">Chat Now</a>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4">
-            <div class="card h-100 text-center">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <i class="bi bi-book text-primary" style="font-size: 3rem;"></i>
+            <div class="card h-100 border-0 shadow-sm transition-hover">
+                <div class="card-body p-4 text-center">
+                    <div
+                        class="d-inline-flex align-items-center justify-content-center bg-primary-soft rounded-circle mb-3 p-3">
+                        <i class="bi bi-journal-text text-primary-custom fs-2"></i>
                     </div>
-                    <h5 class="card-title">Educational Resources</h5>
-                    <p class="card-text">Learn about your rights, how to file complaints, and access important GBV information.</p>
-                    <a href="{% url 'eveshield:resources:list' %}" class="btn btn-primary">Browse Resources</a>
+                    <h5 class="card-title fw-bold">Resource Library</h5>
+                    <p class="card-text text-muted mb-4">Educate yourself with our curated articles on rights, safety
+                        planning, and recovery.</p>
+                    <a href="{% url 'eveshield:resources:list' %}"
+                        class="btn btn-link text-decoration-none p-0 stretched-link">Browse Library <i
+                            class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4">
-            <div class="card h-100 text-center">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <i class="bi bi-telephone-fill text-primary" style="font-size: 3rem;"></i>
+            <div class="card h-100 border-0 shadow-sm transition-hover">
+                <div class="card-body p-4 text-center">
+                    <div
+                        class="d-inline-flex align-items-center justify-content-center bg-danger bg-opacity-10 rounded-circle mb-3 p-3">
+                        <i class="bi bi-telephone-plus text-danger fs-2"></i>
                     </div>
-                    <h5 class="card-title">Emergency Contacts</h5>
-                    <p class="card-text">Quick access to emergency hotlines, police, and crisis support services.</p>
-                    <a href="{% url 'eveshield:resources:emergency_contacts' %}" class="btn btn-primary">View Contacts</a>
+                    <h5 class="card-title fw-bold">Emergency Help</h5>
+                    <p class="card-text text-muted mb-4">Immediate access to critical hotlines and emergency response
+                        services.</p>
+                    <a href="{% url 'eveshield:resources:emergency_contacts' %}"
+                        class="btn btn-link text-decoration-none p-0 stretched-link link-danger">Get Help Now <i
+                            class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Call to Action -->
-<div class="bg-light py-5 mt-5">
+<!-- Mental Health Banner -->
+<section class="py-5 bg-primary-soft mt-5">
     <div class="container text-center">
-        <h3 class="mb-3">Need Immediate Help?</h3>
-        <p class="lead mb-4">If you're in immediate danger, call emergency services now</p>
-        <div class="d-flex gap-3 justify-content-center flex-wrap">
-            <a href="tel:999" class="btn btn-danger btn-lg">
-                <i class="bi bi-telephone-fill"></i> Call 999 (Police)
-            </a>
-            <a href="tel:1195" class="btn btn-danger btn-lg">
-                <i class="bi bi-telephone-fill"></i> Call 1195 (GBV Hotline)
-            </a>
-        </div>
+        <h2 class="fw-bold mb-3">You Are Not Alone</h2>
+        <p class="lead mb-4 text-dark opacity-75">Connect with our community and professionals who care.</p>
+        <a href="{% url 'eveshield:accounts:signup' %}" class="btn btn-primary rounded-pill px-5 btn-lg">Join EveShield
+            Today</a>
     </div>
-</div>
+</section>
 {% endblock %}
-
-
